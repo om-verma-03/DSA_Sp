@@ -31,8 +31,8 @@ int divide(int dividend,int divisor){
     }
 }
 int main(){
-    int dividend = -11;
-    int divisor = 4;
+    int dividend = -2147483648;
+    int divisor = -1;
     
     int ans = divide(dividend,divisor);
     cout<<"Quotient is: "<<ans<<endl;
