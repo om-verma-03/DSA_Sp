@@ -3,9 +3,9 @@ public:
     int ExpandAroundIndex(string s,int i,int j){
         int count = 0;
         while(i >= 0 && j < s.size() && s[i] == s[j]){
-            for(int temp=i;temp<=j;temp++){
-                cout<<s[temp]<<" ";
-            }cout<<endl;
+//             for(int temp=i;temp<=j;temp++){
+//                 cout<<s[temp]<<" ";
+//             }cout<<endl;
 
             count++;
             i--;
