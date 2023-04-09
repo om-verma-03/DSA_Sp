@@ -10,7 +10,7 @@ int Sieve(int n){
     primes[0] = false;
     primes[1] = false;
 
-    for(int i=0;i*i<=n;i++){      //Optimization 2      
+    for(int i=2;i*i<=n;i++){      //Optimization 2      
         if(primes[i] == true){
             count++;
 
