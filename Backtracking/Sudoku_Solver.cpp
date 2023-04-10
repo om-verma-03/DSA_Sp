@@ -15,7 +15,7 @@ public:
             }
 
             //check 3X3 matrix
-            if(board[row + (i/3)][col + (i%3)] == k+'0'){
+            if(board[3*(row/3) + (i/3)][3*(col/3) + (i%3)] == k+'0'){  //This 3*(row/3) is important bcz 3X3 block ka koi bhi index do wo starting block se check krrega naki wo particular index se
                 return false;
             }
         }
