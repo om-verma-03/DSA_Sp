@@ -1,0 +1,31 @@
+class Solution{
+public:
+    void Insert_b(stack<int>& st,int target){
+        if(st.size() == 0){
+            st.push(target);
+            return;
+        }
+        
+        int temp = st.top();
+        st.pop();
+        
+        Insert_b(st,target);
+        
+        st.push(temp);
+    }
+    void Rever(stack<int>& st){
+        if(st.empty()){
+            return;
+        }
+        
+        int target = st.top();
+        st.pop();
+        
+        Rever(st);
+        
+        Insert_b(st,target);
+    }
+    void Reverse(stack<int> &St){
+        Rever(St);
+    }
+};
