@@ -1,0 +1,20 @@
+class Solution{
+public:
+    void Insert_b(stack<int>& st,int X){
+        if(st.size() == 0){
+            st.push(X);
+            return;
+        }
+        
+        int temp = st.top();
+        st.pop();
+        
+        Insert_b(st,X);
+        
+        st.push(temp);
+    }
+    stack<int> insertAtBottom(stack<int> St,int X){
+        Insert_b(St,X);
+        return St;
+    }
+};
