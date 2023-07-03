@@ -1,0 +1,29 @@
+void Insert_right(stack<int>& st,int X){
+    if(st.empty() || st.top() <= X){       //Dhyan se dekho greatest element at top puch rha h Question me iss liye top wala cond. change hua
+        st.push(X);
+        return;
+    }
+    
+    int temp = st.top();
+    st.pop();
+    
+    Insert_right(st,X);
+    
+    st.push(temp);
+}
+void Sort_stack(stack<int>& st){
+    if(st.empty()){
+        return;
+    }
+    
+    int target = st.top();
+    st.pop();
+    
+    Sort_stack(st);
+    
+    Insert_right(st,target);
+}
+void SortedStack :: sort()
+{
+   Sort_stack(s);
+}
