@@ -1,0 +1,66 @@
+class Solution{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    typedef long long ll;
+    void NSR(long long arr[],vector<ll>& ans,int n){
+        stack<pair<ll,ll>> st;
+        st.push({-1,n});
+                //<value,index>
+        for(int i=n-1;i>=0;i--){
+            if(st.top().first == -1){
+                ans.push_back(st.top().first);
+            }
+            else if(st.top().first < arr[i]){
+                ans.push_back(st.top().second);
+            }
+            else if(st.top().first >= arr[i]){
+                while(st.top().first >= arr[i]){
+                    st.pop();
+                }
+                ans.push_back(st.top().second);
+            }
+            st.push({arr[i],i});
+        }
+        reverse(ans.begin(),ans.end());
+        for(int i=0;i<ans.size();i++){
+            if(ans[i] == -1){
+                ans[i] = n;
+            }
+        }
+    }
+    void NSL(long long arr[],vector<ll>& ans,int n){
+        stack<pair<ll,ll>> st;
+        st.push({-1,-1});
+        
+        for(int i=0;i<n;i++){
+            if(st.top().first == -1){
+                ans.push_back(st.top().first);
+            }
+            else if(st.top().first < arr[i]){
+                ans.push_back(st.top().second);
+            }
+            else if(st.top().first >= arr[i]){
+                while(st.top().first >= arr[i]){
+                    st.pop();
+                }
+                ans.push_back(st.top().second);
+            }
+            st.push({arr[i],i});
+        }
+    }
+    long long getMaxArea(long long arr[], int n){
+        vector<ll> right;
+        NSR(arr,right,n);
+        vector<ll> left;
+        NSL(arr,left,n);
+        
+        long long maxi = INT_MIN;
+        
+        vector<ll> area(n);
+        for(int i=0;i<n;i++){
+            area[i] = (right[i]-left[i]-1)*arr[i];
+            maxi = max(maxi,area[i]);
+        }
+        return maxi;
+    }
+};
