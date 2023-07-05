@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        stack<int> st;
+        st.push(-1);
+
+        int max_len = 0;
+
+        for(int i=0;i<s.size();i++){
+            if(s[i] == '('){
+                st.push(i);
+            }
+            else{  //Agar closing bracket h to uska opening bracket hona hi chahhiye tha stack me
+                st.pop();    //If pop krrne ke baad stack empty ho jaye it means wo (-1) wale ko delete kiya h 
+                if(st.empty()){ 
+                    st.push(i);      //So ham log uska Index ko push krr denge so that uss Index ke aage se check krrnge
+                }
+                else{                //Or Agar stack empty nhi ho rha h it means valid h So i tkk ka length calculate krr lo and maxi me store krr lo
+                    int len = i-st.top();
+                    max_len = max(max_len,len);
+                }
+            }
+        }
+        return max_len;
+    }
+};
