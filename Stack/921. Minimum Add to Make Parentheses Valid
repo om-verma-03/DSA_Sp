@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> st;
+        
+        for(int i=0;i<s.size();i++){
+            if(s[i] == '('){
+                st.push(s[i]);
+            }
+            else{   //There is a closing bracket
+                if(!st.empty() && st.top() == '('){
+                    st.pop();
+                }
+                else{
+                    st.push(s[i]);
+                }
+            }
+        }
+        // int count = 0;
+        // while(!st.empty()){
+        //     cout<<st.top()<<endl;
+        //     st.pop();
+        //     // char first = st.top(); st.pop();            //No need of this Lafda
+        //     // char second = st.top(); st.pop();
+            
+        //     // if(first == second){
+        //     //     count += 1;
+        //     // }
+        //     // else{
+        //     //     count += 2;
+        //     // }
+        // }
+        return st.size();
+    }
+};
