@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        vector<int> arr;
+
+        while(head != NULL){
+            arr.push_back(head->val);
+            head = head->next;
+        }
+
+        int n = arr.size();
+
+        stack<int> st;
+        st.push(-1);
+
+        vector<int> ans;
+
+        for(int i=n-1;i>=0;i--){
+            cout<<arr[i]<<" ";
+            if(st.top() == -1){
+                ans.push_back(0);
+            }
+            else if(st.top() > arr[i]){
+                ans.push_back(st.top());
+            }
+            else if(st.top() <= arr[i]){
+                while(st.top() != -1 && st.top() <= arr[i]){
+                    st.pop();
+                }
+                if(st.top() == -1){
+                    ans.push_back(0);
+                }else{
+                    ans.push_back(st.top());
+                }
+            }
+            st.push(arr[i]);
+        }
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
