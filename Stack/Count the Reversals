@@ -1,0 +1,32 @@
+int countRev (string s){
+    if(s.size()%2 != 0){
+        return -1;
+    }
+    stack<char> st;
+    
+    for(int i=0;i<s.size();i++){
+        if(s[i] == '{'){
+            st.push(s[i]);
+        }
+        else{   //There is a closing bracket
+            if(!st.empty() && st.top() == '{'){
+                st.pop();
+            }
+            else{
+                st.push(s[i]);
+            }
+        }
+    }
+    int count = 0;
+    while(!st.empty()){
+        char first = st.top(); st.pop();
+        char second = st.top(); st.pop();
+        
+        if(first == second){
+            count += 1;
+        }
+        else{
+            count += 2;
+        }
+    }
+    
