@@ -1,0 +1,34 @@
+class Solution{
+public:
+    vector<int> rearrangeQueue(queue<int> &q){
+        queue<int> a;
+        
+        int k = q.size()/2;
+        
+        while(k--){
+            int temp = q.front();
+            q.pop();
+            a.push(temp);
+        }
+        
+        k = q.size();
+        
+        while(k--){
+            int temp = a.front();
+            a.pop();
+            q.push(temp);
+            
+            int lemp = q.front();
+            q.pop();
+            q.push(lemp);
+        }
+        
+        vector<int> ans;
+        
+        while(!q.empty()){
+            ans.push_back(q.front());
+            q.pop();
+        }
+        return ans;
+    }
+};
