@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void BuildAns(stack<string>& st,string& ans){    //Reversing the stack element
+        if(st.empty()){
+            return;
+        }
+
+        string temp = st.top();
+        st.pop();
+
+        BuildAns(st,ans);
+
+        ans += temp;
+    }
+    string simplifyPath(string path){
+        stack<string> st;
+        int i = 0;
+
+        while(i<path.size()){
+            int start = i;
+            int end = i+1;
+
+            while(end < path.size() && path[end] != '/'){
+                end++;
+            }
+
+            string dir = path.substr(start,end-start);
+            i = end;
+            
+            if(dir == "/." || dir == "/"){
+                continue;
+            }
+            if(dir != "/.."){
+                st.push(dir);
+            }
+            else if(!st.empty()){
+                st.pop();
+            }
+        }
+
+        string ans = st.empty() ? "/" : "";
+
+        BuildAns(st,ans);
+        return ans;
+    }
+};
