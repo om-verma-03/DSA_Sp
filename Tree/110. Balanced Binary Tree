@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int height(TreeNode* root){
+        if(root == NULL){
+            return 1;
+        }
+
+        int left_t = height(root->left);
+        int right_t = height(root->right);
+
+        return max(right_t,left_t)+1;
+    }
+    bool isBalanced(TreeNode* root) {
+        if(root == NULL){
+            return true;
+        }
+
+        int left_ans = height(root->left);
+        int right_ans = height(root->right);
+        int diff = abs(left_ans-right_ans);
+        
+        if(diff > 1){
+            return false;       //Agar pehela hi root rule follow nhi krr rha to neeche jayega hi nhi Directly false return krr dega(Or agar neeche call jaane ke baad iss condition pe aata h the left_t ya right_t ko false
+        }                        //krr dega and Eventually (Left_t && right_t) me false return ho jayega
+
+        bool left_t = isBalanced(root->left);
+        bool right_t = isBalanced(root->right);
+
+        return (left_t && right_t);
+    }
+};
