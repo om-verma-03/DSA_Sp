@@ -1,4 +1,4 @@
-class Solution {
+class Solution {/
 public:
     bool solve(TreeNode* p,TreeNode* q){
         if((p == NULL && q != NULL) || (p != NULL && q == NULL)){
