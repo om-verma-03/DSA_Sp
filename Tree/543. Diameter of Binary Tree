@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int diam(TreeNode* root){
+        if(root == NULL){
+            return 0;
+        }
+
+        int left_t = diam(root->left);
+        int right_t = diam(root->right);
+
+        return max(left_t,right_t)+1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root == NULL){
+            return 0;
+        }
+
+        int left_d = diameterOfBinaryTree(root->left);
+        int right_d = diameterOfBinaryTree(root->right);
+
+        //Operation
+        int both = diam(root->left)+diam(root->right);
+
+        return max(both,max(left_d,right_d));
+    }
+};
