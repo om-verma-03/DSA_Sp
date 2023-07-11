@@ -1,0 +1,50 @@
+class Solution {
+public:
+    void MakeParent(TreeNode* curr,TreeNode* par,unordered_map<TreeNode*,TreeNode*>& parent){
+        if(curr == NULL){
+            return;
+        }
+
+        parent[curr] = par;
+        MakeParent(curr->left,curr,parent);
+        MakeParent(curr->right,curr,parent);
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*,TreeNode*> parent;
+
+        MakeParent(root,NULL,parent);
+
+        queue<TreeNode*> que;
+        que.push(target);
+        unordered_map<TreeNode*,bool> visited;
+
+        while(!que.empty() && k){
+            int size = que.size();
+            while(size--){
+                TreeNode* node = que.front();
+                que.pop();
+
+                visited[node] = true;
+
+                if(!visited[node->left] && node->left != NULL){
+                    que.push(node->left);
+                }
+                if(!visited[node->right] && node->right != NULL){
+                    que.push(node->right);
+                }
+                if(parent[node] != NULL && !visited[parent[node]]){
+                    que.push(parent[node]);
+                }
+            }
+            k--;
+        }
+
+        vector<int> ans;
+
+        while(!que.empty()){
+            ans.push_back(que.front()->val);
+            que.pop();
+        }
+        return ans;
+    }
+};
