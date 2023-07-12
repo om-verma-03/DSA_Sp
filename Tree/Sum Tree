@@ -1,0 +1,27 @@
+class Solution
+{
+    public:
+    pair<bool,int> solve(Node* root){
+        if(root == NULL){
+            return {true,0};  //Agar single child h then jiss taraf NULL 
+        }
+        if(root->left == NULL && root->right == NULL){
+            return {true,root->data};
+        }
+        
+        pair<bool,int> left_t = solve(root->left);
+        pair<bool,int> right_t = solve(root->right);
+        
+        int sum = left_t.second+right_t.second;
+        
+        if(sum == root->data && left_t.first && right_t.first){
+            return {true,sum+root->data};        //Root wala to uper jayega hi BUT neeche se jo Sum aaya h wo bhi to upper jayega
+        }
+        else{
+            return {false,sum+root->data};
+        }
+    }
+    bool isSumTree(Node* root){
+        return solve(root).first;
+    }
+};
