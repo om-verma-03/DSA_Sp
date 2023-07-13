@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int find(vector<int>& inorder,int target,int start,int end){
+        for(int i=start;i<=end;i++){
+            if(inorder[i] == target){
+                cout<<i<<endl;
+                return i;
+            }
+        }
+        return -1;
+    }
+    TreeNode* solve(vector<int>& preorder,vector<int>& inorder,int& preIndex,int inStart,int inEnd){
+        //Base case
+        if(preIndex >= preorder.size() || inStart > inEnd){
+            return NULL;
+        }
+
+        //Only one operation
+        int element = preorder[preIndex++];
+        TreeNode* root = new TreeNode(element);
+        int pos = find(inorder,element,inStart,inEnd);
+
+        root->left = solve(preorder,inorder,preIndex,inStart,pos-1);
+        root->right = solve(preorder,inorder,preIndex,pos+1,inEnd);
+
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int preInd = 0;
+        int inStart = 0;
+        int inEnd = inorder.size()-1;
+
+        TreeNode* root = solve(preorder,inorder,preInd,inStart,inEnd);
+        return root;
+    }
+};
