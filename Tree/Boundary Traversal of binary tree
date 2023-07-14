@@ -1,0 +1,63 @@
+class Solution {
+public:  
+    void Solve_left(Node* root,vector<int>& ans){
+        if(root == NULL){
+            return;
+        }
+        if(root->left == NULL && root->right == NULL){
+            return;
+        }
+        
+        ans.push_back(root->data);
+        if(root->left){
+            Solve_left(root->left,ans);
+        }
+        else{
+            Solve_left(root->right,ans);
+        }
+    }
+    
+    void Solve_leaf(Node* root,vector<int>& ans){
+        if(root == NULL){
+            return;
+        }
+        if(root->left == NULL && root->right == NULL){
+            ans.push_back(root->data);
+        }
+        
+        Solve_leaf(root->left,ans);
+        Solve_leaf(root->right,ans);
+    }
+    void Solve_right(Node* root,vector<int>& ans){
+        if(root == NULL){
+            return;
+        }
+        if(root->left  == NULL && root->right == NULL){
+            return;
+        }
+        
+        if(root->right){
+            Solve_right(root->right,ans);
+        }
+        else{
+            Solve_right(root->left,ans);
+        }
+        ans.push_back(root->data);
+    }
+    
+    vector <int> boundary(Node *root){
+        vector<int> ans;
+        
+        if(root == NULL){
+            return ans;
+        }
+        ans.push_back(root->data);
+        
+        Solve_left(root->left,ans);
+        if(root->left != NULL || root->right != NULL){
+            Solve_leaf(root,ans);
+        }
+        Solve_right(root->right,ans);
+        return ans;
+    }
+};
