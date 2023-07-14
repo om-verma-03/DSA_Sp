@@ -1,0 +1,34 @@
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(root == NULL){
+            return NULL;
+        }
+        queue<Node*> que;
+        que.push(root);
+
+        while(!que.empty()){
+            int size = que.size();
+            while(size--){
+                Node* frontNode = que.front();
+                que.pop();
+
+                if(size == 0){
+                    //cout<<size<<endl;
+                    frontNode->next = NULL;
+                }
+                else{
+                    frontNode->next = que.front();
+                }
+
+                if(frontNode->left){
+                    que.push(frontNode->left);
+                }
+                if(frontNode->right){
+                    que.push(frontNode->right);
+                }
+            }
+        }
+        return root;
+    }
+};
