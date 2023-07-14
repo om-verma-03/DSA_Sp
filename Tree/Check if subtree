@@ -1,0 +1,43 @@
+class Solution{
+  public:
+    bool flag = false;
+    vector<bool> ans;
+     bool solve(Node* p,Node* q){
+        if((p == NULL && q != NULL) || (p != NULL && q == NULL)){
+            return false;
+        }
+        if(p == NULL && q == NULL){
+            return true;
+        }
+
+        if(p->data != q->data){
+            return false;
+        }
+
+        bool left_t =  solve(p->left,q->left);
+        bool right_t = solve(p->right,q->right);
+
+        return (left_t && right_t);
+    }
+    void Inorder(Node* T,Node* S){
+        if(T == NULL){
+            return;
+        }
+        
+        Inorder(T->left,S);
+        if(T->data == S->data){
+            flag = solve(T,S);
+            ans.push_back(flag);
+        }
+        Inorder(T->right,S);
+    }
+    bool isSubTree(Node* T, Node* S){
+        Inorder(T,S);
+        for(int i=0;i<ans.size();i++){
+            if(ans[i] == true){
+                return true;
+            }
+        }
+        return false;
+    }
+};
