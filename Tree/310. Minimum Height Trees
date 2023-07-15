@@ -1,0 +1,54 @@
+class Solution {
+public:
+    // Just move from leaves to inward ( because the nodes most far away from leaves will have the minimum height ), so make an inDegree vector and run BFS and check it there are more than 2 nodes in the queue
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        unordered_map<int,vector<int>> adj;
+        vector<int> indegree(n,0);
+
+        for(auto vec: edges){
+            int u = vec[0];
+            int v = vec[1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+            indegree[u]++;
+            indegree[v]++;
+        }
+
+        queue<int> que;
+
+        for(int i=0;i<indegree.size();i++){
+            if(indegree[i] == 1 || adj[i].size() == 0){
+                que.push(i);
+            }
+        }
+
+        vector<int> ans;
+
+        int left = n;
+
+        while(left > 2){
+            int size = que.size();
+            left -= size;
+            while(size--){
+                int node = que.front();
+                que.pop();
+
+                for(auto v: adj[node]){
+                    indegree[v]--;
+
+                    if(indegree[v] == 1){
+                        que.push(v);
+                    }
+                }
+            }
+        }
+
+        while(!que.empty()){
+            int temp = que.front();
+            ans.push_back(temp);
+            que.pop();
+        }
+        return ans;
+    }
+};
