@@ -1,0 +1,24 @@
+string preorder(Node* root,vector<Node*>& ans,unordered_map<string,int>& mp){
+    if(root == NULL){
+        return "N";
+    }
+    
+    string curr = to_string(root->data);
+    string l = preorder(root->left,ans,mp);
+    string r = preorder(root->right,ans,mp);
+    
+    string fin = curr+","+l+","+r;         //Encoding the String (Just DRY RUN) You will get it
+    
+    if(mp[fin] == 1){
+        ans.push_back(root);
+    }
+    mp[fin]++;
+    return fin;
+}
+vector<Node*> printAllDups(Node* root)
+{
+    vector<Node*> ans;
+    unordered_map<string,int> mp;
+    preorder(root,ans,mp);
+    return ans;
+}
