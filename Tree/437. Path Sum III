@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int ans = 0;
+    void solve(TreeNode* root,long long targetSum){
+        if(root == NULL){
+            return;
+        }
+
+        if(targetSum == root->val){
+            ans++;
+        }
+
+        solve(root->left,targetSum-root->val);
+        solve(root->right,targetSum-root->val);
+    }
+    int pathSum(TreeNode* root, long long targetSum) {
+        if(root){
+            solve(root,targetSum);
+            pathSum(root->left,targetSum);
+            pathSum(root->right,targetSum); 
+        }
+        return ans;
+    }
+};
+
+                                                            //Way 2
+class Solution {
+public:
+    int ans = 0;
+    void solve(TreeNode* root,long long targetSum){
+        if(root == NULL){
+            return;
+        }
+
+        if(targetSum == root->val){
+            ans++;
+        }
+
+        solve(root->left,targetSum-root->val);
+        solve(root->right,targetSum-root->val);
+    }
+    void pre(TreeNode* root,long long targetSum){
+        if(root == NULL){
+            return;
+        }
+
+        solve(root,targetSum);
+
+        pre(root->left,targetSum);
+        pre(root->right,targetSum);
+    }
+    int pathSum(TreeNode* root, long long targetSum) {
+        pre(root,targetSum);
+        return ans;
+    }
+};
