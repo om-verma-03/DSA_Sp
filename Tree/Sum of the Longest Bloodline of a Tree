@@ -1,0 +1,29 @@
+class Solution
+{
+public:
+    pair<int,int> solve(Node* root){
+        if(root == NULL){
+            return {0,0};
+        }
+        
+        pair<int,int> left_t = solve(root->left);
+        pair<int,int> right_t = solve(root->right);
+        
+        int new_lev = 0;
+        int new_sum = 0;
+        if(left_t.first > right_t.first){
+            new_lev = left_t.first+1;
+            new_sum = left_t.second + root->data;
+        }
+        else{
+            new_lev = right_t.first+1;
+            new_sum = right_t.second + root->data;
+        }
+        return {new_lev,new_sum};
+    }
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        pair<int,int> ans = solve(root);
+        return ans.second;
+    }
+};
