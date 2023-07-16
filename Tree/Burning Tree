@@ -1,0 +1,71 @@
+class Solution {
+  public:
+    unordered_map<Node*,Node*> parent;
+    void par(Node* curr,Node* prev){
+        if(curr == NULL){
+            return;
+        }
+        
+        parent[curr] = prev;
+        
+        par(curr->left,curr);
+        par(curr->right,curr);
+    }
+    Node* find(Node* root,int target){
+        queue<Node*> que;
+        que.push(root);
+        
+        while(!que.empty()){
+            Node* frontNode = que.front();
+            que.pop();
+            
+            if(frontNode->data == target){
+                return frontNode;
+            }
+            
+            if(frontNode->left){
+                que.push(frontNode->left);
+            }
+            if(frontNode->right){
+                que.push(frontNode->right);
+            }
+        }
+        return NULL;
+    }
+    int minTime(Node* root, int target) {
+        par(root,NULL);
+        
+        Node* start = find(root,target);
+        
+        queue<Node*> que;
+        que.push(start);
+        
+        unordered_map<Node*,bool> visited;
+        visited[start] = true;
+        
+        int level = 0;
+        
+        while(!que.empty()){
+            int size = que.size();
+            while(size--){
+                Node* frontNode = que.front();
+                que.pop();
+                
+                if(frontNode->left && !visited[frontNode->left]){
+                    visited[frontNode->left] = true;
+                    que.push(frontNode->left);
+                }
+                if(frontNode->right && !visited[frontNode->right]){
+                    visited[frontNode->right] = true;
+                    que.push(frontNode->right);
+                }
+                if(parent[frontNode] != NULL && !visited[parent[frontNode]]){
+                    visited[parent[frontNode]] = true;
+                    que.push(parent[frontNode]);
+                }
+            }
+            level++;
+        }
+        return level-1;
+    }
+};
