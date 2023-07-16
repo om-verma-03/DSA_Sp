@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+
+        if(!root){
+            return result;
+        }
+        
+        queue<TreeNode*> que;
+        que.push(root);
+
+        bool left_to_right = true;
+
+        while(!que.empty()){
+            int size = que.size();
+            vector<int> ans(size);
+
+            for(int i=0;i<size;i++){
+                TreeNode* temp = que.front();
+                que.pop();
+
+                int index;
+                if(left_to_right == true){
+                    index = i;
+                }
+                else{
+                    index = size-i-1;
+                }
+                cout<<index<<" ";
+
+                ans[index] = temp->val;
+
+                if(temp->left){
+                    que.push(temp->left);
+                }
+                if(temp->right){
+                    que.push(temp->right);
+                }
+            }
+            left_to_right = !left_to_right;
+            result.push_back(ans);
+        }
+        return result;
+    }
+};
