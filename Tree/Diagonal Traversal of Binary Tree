@@ -1,0 +1,20 @@
+vector<int> diagonal(Node *root){
+   queue<Node*> que;
+   que.push(root);
+   
+   vector<int> ans;
+   
+   while(!que.empty()){
+       Node* frontNode = que.front();
+       que.pop();
+       
+       while(frontNode){
+           if(frontNode->left){
+               que.push(frontNode->left);
+           }
+           ans.push_back(frontNode->data);
+           frontNode = frontNode->right;
+       }
+   }
+   return ans;
+}
