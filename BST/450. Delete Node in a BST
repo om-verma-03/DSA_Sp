@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int maxi(TreeNode* root){
+        TreeNode* temp = root;
+
+        while(temp->right != NULL){
+            temp = temp->right;
+        }
+        return temp->val;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root == NULL){
+            return NULL;
+        }
+
+        //If value mill gai
+        if(root->val == key){
+            //0 child
+            if(root->left == NULL && root->right == NULL){
+                delete root;
+                return NULL;
+            }
+
+            //1 child
+            if(root->left == NULL && root->right != NULL){
+                TreeNode* temp = root->right;
+                delete root;
+                return temp;
+            }
+            else if(root->left != NULL && root->right == NULL){
+                TreeNode* temp = root->left;
+                delete root;
+                return temp;
+            }
+
+            //2 child
+            if(root->left != NULL && root->right != NULL){
+                int InordPre = maxi(root->left);
+                root->val = InordPre;
+                root->left = deleteNode(root->left,InordPre);
+            }
+        }
+        else if(key > root->val){
+            root->right = deleteNode(root->right,key);
+        }
+        else{
+            root->left = deleteNode(root->left,key);
+        }
+        return root;
+    }
+};
