@@ -1,0 +1,26 @@
+//One more approach is there Inorder of Binary Search tree is Sorted
+class Solution {
+public:
+    bool solve(TreeNode* root,long long mini,long long maxi){
+        if(root == NULL){
+            return true;
+        }
+
+        bool left = solve(root->left,mini,root->val);
+        bool right = solve(root->right,root->val,maxi);
+
+        bool curr;
+        if(root->val > mini && root->val < maxi){
+            curr = true;
+        }
+        else{
+            curr = false;
+        }
+        return (left && right && curr);
+    }
+    bool isValidBST(TreeNode* root) {
+        long long int low = -2147483657;
+        long long int high = 2147483657;
+        return solve(root,low,high);
+    }
+};
