@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> solve(TreeNode* root,int &ans){
+        if(root == NULL){
+            return {1,0,INT_MAX,INT_MIN};
+        }
+        
+        vector<int> left = solve(root->left,ans);
+        vector<int> right = solve(root->right,ans);
+        
+        int x = min(root->val,left[2]);
+        int y = max(root->val,right[3]);
+        if(left[0] && right[0] && root->val > left[3] && root->val < right[2]){
+            ans = max(ans,left[1]+right[1]+root->val);
+            return {1,left[1]+right[1]+root->val,x,y};
+        }
+        return {0,left[1]+right[1]+root->val,x,y};
+    }
+    int maxSumBST(TreeNode* root) {
+        int maxSum = 0;
+        vector<int> ans = solve(root,maxSum);
+    	return maxSum;
+    }
+};
