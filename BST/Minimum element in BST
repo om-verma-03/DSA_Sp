@@ -1,0 +1,18 @@
+void solve(Node* root,int& mini){
+    if(root == NULL){
+        return ;
+    }
+    
+    mini = min(mini,root->data);
+    
+    solve(root->left,mini);
+    solve(root->right,mini);
+}
+int minValue(Node* root) {
+    int mini = INT_MAX;
+ solve(root,mini);
+ if(mini == INT_MAX){
+     return -1;
+ }
+ return mini;
+}
