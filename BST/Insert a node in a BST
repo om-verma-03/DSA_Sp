@@ -1,0 +1,35 @@
+Node* insert(Node* root, int Key) {
+    Node* temp = root;
+    if(temp->data == Key){
+        return temp;
+    }
+    while(temp->left != NULL || temp->right != NULL){
+        if(temp->data < Key){
+            if(temp->right){
+                temp = temp->right;
+            }
+            else{
+                break;
+            }
+        }
+        else if(temp->data > Key){
+            if(temp->left){
+                temp = temp->left;
+            }
+            else{
+                break;
+            }
+        }
+        if(temp->data == Key){
+            return temp;
+        }
+    }
+    Node* nod = new Node(Key);
+    if(temp->data < Key){
+        temp->right = nod;
+    }
+    else{
+        temp->left = nod;
+    }
+    return root;
+}
