@@ -1,0 +1,29 @@
+class Solution{
+    public:
+    void inorder1(Node* root,Node*& pre,int key){
+        if(root == NULL){
+            return;
+        }
+        
+        inorder1(root->left,pre,key);
+        if(root->key < key){
+            pre = root;
+        }
+        inorder1(root->right,pre,key);
+    }
+    void inorder2(Node* root,Node*& suc,int key){
+        if(root == NULL){
+            return;
+        }
+        
+        inorder2(root->right,suc,key);
+        if(root->key > key){
+            suc = root;
+        }
+        inorder2(root->left,suc,key);
+    }
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key){
+        inorder1(root,pre,key);
+        inorder2(root,suc,key);
+    }
+};
