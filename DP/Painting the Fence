@@ -1,0 +1,35 @@
+class Solution{
+    public:
+    long long mod = 1000000007;
+    long long solve(int n,int k,vector<int>& dp){
+        if(n == 1){
+            return k;
+        }
+        if(n == 2){
+            return k*k;
+        }
+        if(dp[n] != -1){
+            return dp[n];
+        }
+                  //Same         //Different
+        int ans = ((solve(n-2,k,dp)%mod + solve(n-1,k,dp)%mod)*(k-1)%mod)%mod;
+        return dp[n] = ans;
+    }
+    long long solve_tab(int n,int k){
+        vector<int> dp(n+1,-1);
+        
+        dp[1] = k;
+        dp[2] = k*k;
+        
+        for(int i=3;i<=n;i++){
+            int ans = ((solve(i-2,k,dp)%mod + solve(i-1,k,dp)%mod)*(k-1)%mod)%mod;
+            dp[i] = ans;
+        }
+        return dp[n];
+    }
+    long long countWays(int n, int k){
+        // vector<int> dp(n+1,-1);
+        // return solve(n,k,dp);
+        return solve_tab(n,k);
+    }
+};
