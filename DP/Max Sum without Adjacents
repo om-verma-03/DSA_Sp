@@ -1,0 +1,53 @@
+class Solution{
+public:	
+	// calculate the maximum sum with out adjacent
+	int solve(int* arr,int ind,int n,vector<int>& dp){
+	    if(ind >= n){
+	        return 0;
+	    }
+	    if(dp[ind] != -1){
+	        return dp[ind];
+	    }
+	    
+	    int take = arr[ind] + solve(arr,ind+2,n,dp);
+	    int notTake = 0 + solve(arr,ind+1,n,dp);
+	    
+	    return dp[ind] = max(take,notTake);
+	}
+	int solve_tab(int* arr,int n){
+	    vector<int> dp(n+1,0);
+	    
+	    dp[n-1] = arr[n-1]; 
+	    
+	    for(int i=n-2;i>=0;i--){
+	        int take = arr[i] + dp[i+2];
+    	    int notTake = 0 + dp[i+1];
+    	    
+    	    dp[i] = max(take,notTake);
+	    }
+	    return dp[0];
+	}
+	int solve_tab_so(int* arr,int n){
+	    int forw1 = arr[n-1];
+	    int forw2 = 0;
+	    
+	    int curr;
+	    
+	    for(int i=n-2;i>=0;i--){
+	        int take = arr[i] + forw2;
+    	    int notTake = 0 + forw1;
+    	    
+    	    curr = max(take,notTake);
+    	    
+    	    forw2 = forw1;
+    	    forw1 = curr;
+	    }
+	    return forw1;                     //Because agar sirf ek element hoga to curr me to kch store hi nhi hua hoga
+	}
+	int findMaxSum(int *arr, int n) {
+	   // vector<int> dp(n+1,-1);
+	   // return solve(arr,0,n,dp);
+	   //return solve_tab(arr,n);
+	   return solve_tab_so(arr,n);
+	}
+};
