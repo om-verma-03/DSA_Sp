@@ -1,0 +1,59 @@
+class Solution{
+    public:
+    int solve(int wt[],int val[],int ind,int n,int W,vector<vector<int>>& dp){           Top-Down(Memoization)
+        if(ind == n || W == 0){
+            return 0;
+        }
+        if(dp[ind][W] != -1){
+            return dp[ind][W];
+        }
+        
+        int take = 0;
+        if(W-wt[ind] >= 0){
+            take = val[ind] + solve(wt,val,ind+1,n,W-wt[ind],dp);
+        }
+        int notTake = 0 + solve(wt,val,ind+1,n,W,dp);
+        
+        return dp[ind][W] = max(take,notTake);
+    }
+    int solve_tab(int wt[],int val[],int n,int W){                                    Bottom-Up(Tabulation)
+        vector<vector<int>> dp(n+1,vector<int>(W+1,0));
+        
+        for(int i=n-1;i>=0;i--){
+            for(int j=1;j<=W;j++){
+                int take = 0;
+                if(j-wt[i] >= 0){
+                    take = val[i] + dp[i+1][j-wt[i]];
+                }
+                int notTake = 0 + dp[i+1][j];
+                
+                dp[i][j] = max(take,notTake);
+            }
+        }
+        return dp[0][W];
+    }
+    int solve_tab_so(int wt[],int val[],int n,int W){                               Space-Optimization
+        vector<int> forw(W+1,0);
+        vector<int> curr(W+1,0);
+        
+        for(int i=n-1;i>=0;i--){
+            for(int j=1;j<=W;j++){
+                int take = 0;
+                if(j-wt[i] >= 0){
+                    take = val[i] + forw[j-wt[i]];
+                }
+                int notTake = 0 + forw[j];
+                
+                curr[j] = max(take,notTake);
+            }
+            forw = curr;
+        }
+        return curr[W];
+    }
+    int knapSack(int W, int wt[], int val[], int n) {
+        // vector<vector<int>> dp(n+1,vector<int>(W+1,-1));
+        // return solve(wt,val,0,n,W,dp);
+        // return solve_tab(wt,val,n,W);
+        return solve_tab_so(wt,val,n,W);
+    }
+};
