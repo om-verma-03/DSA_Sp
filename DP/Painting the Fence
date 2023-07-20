@@ -1,7 +1,7 @@
 class Solution{
     public:
     long long mod = 1000000007;
-    long long solve(int n,int k,vector<int>& dp){
+    long long solve(int n,int k,vector<int>& dp){           //Top Down(Memoization)
         if(n == 1){
             return k;
         }
@@ -11,25 +11,38 @@ class Solution{
         if(dp[n] != -1){
             return dp[n];
         }
-                  //Same         //Different
+                    //Last 2 is Same     //Last Two Different
         int ans = ((solve(n-2,k,dp)%mod + solve(n-1,k,dp)%mod)*(k-1)%mod)%mod;
         return dp[n] = ans;
     }
-    long long solve_tab(int n,int k){
+    long long solve_tab(int n,int k){                     //Bottom Up(Tabulation)
         vector<int> dp(n+1,-1);
         
         dp[1] = k;
         dp[2] = k*k;
         
         for(int i=3;i<=n;i++){
-            int ans = ((solve(i-2,k,dp)%mod + solve(i-1,k,dp)%mod)*(k-1)%mod)%mod;
+            int ans = ((dp[i-2]%mod + dp[i-1]%mod)*(k-1)%mod)%mod;
             dp[i] = ans;
         }
         return dp[n];
     }
+    long long solve_tab_so(int n,int k){                   //Space Optimization
+        int prev1 = k;
+        int prev2 = k*k;
+        int curr;
+        
+        for(int i=3;i<=n;i++){
+            curr = ((prev1%mod + prev2%mod)*(k-1)%mod)%mod;
+            prev1 = prev2;
+            prev2 = curr;
+        }
+        return curr;
+    }
     long long countWays(int n, int k){
         // vector<int> dp(n+1,-1);
         // return solve(n,k,dp);
-        return solve_tab(n,k);
+        // return solve_tab(n,k);
+        return solve_tab_so(n,k);
     }
 };
