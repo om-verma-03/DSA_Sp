@@ -1,0 +1,80 @@
+int find_n(struct Node* root){
+    int count = 0;
+    struct Node* curr = root;
+    
+    while(curr){
+        if(curr->left == NULL){
+            count++;
+            curr = curr->right;
+        }
+        else{
+            struct Node* pred = curr->left;
+            
+            while(pred->right != curr && pred->right){
+                pred = pred->right;
+            }
+            
+            if(pred->right == NULL){
+                pred->right = curr;
+                curr = curr->left;
+            }
+            else{
+                pred->right = NULL;
+                count++;
+                curr = curr->right;
+            }
+        }
+    }
+    return count;
+}
+float find_median(struct Node* root,int n){
+    int odd = (n+1)/2;  int odd_val = -1;
+    int even1 = (n/2);  int even1_val = -1;
+    int even2 = (n/2)+1; int even2_val = -1;
+    int i = 0;
+    struct Node* curr = root;
+    
+    while(curr){
+        if(curr->left == NULL){
+            i++;
+            if(i == odd) odd_val = curr->data;
+            if(i == even1) even1_val = curr->data;
+            if(i == even2) even2_val = curr->data;
+            curr = curr->right;
+        }
+        else{
+            struct Node* pred = curr->left;
+            
+            while(pred->right != curr && pred->right){
+                pred = pred->right;
+            }
+            
+            if(pred->right == NULL){
+                pred->right = curr;
+                curr = curr->left;
+            }
+            else{
+                pred->right = NULL;
+                i++;
+                if(i == odd) odd_val = curr->data;
+                if(i == even1) even1_val = curr->data;
+                if(i == even2) even2_val = curr->data;
+                curr = curr->right;
+            }
+        }
+    }
+    float median = 0.0;
+    
+    if(n&1){  //Odd
+        median = odd_val;
+    }
+    else{
+        median = (even1_val+even2_val)/2.0;
+    }
+    return median;
+}
+float findMedian(struct Node *root)
+{
+      int n = find_n(root);
+      return find_median(root,n);
+}
