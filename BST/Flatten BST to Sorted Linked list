@@ -1,0 +1,6 @@
+Create a Dummy Node
+Start Traversing Inorder traversal
+
+prev->left = NULL;
+prev->right = root;
+prev = root;
