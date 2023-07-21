@@ -1,0 +1,19 @@
+class Solution{
+public:
+    void Inorder(Node* root,int l,int h,int& ans){
+        if(root == NULL){
+            return;
+        }
+        
+        Inorder(root->left,l,h,ans);
+        if(root->data >= l && root->data <= h){
+            ans++;
+        }
+        Inorder(root->right,l,h,ans);
+    }
+    int getCount(Node *root, int l, int h){
+        int ans = 0;
+        Inorder(root,l,h,ans);
+        return ans;
+    }
+};
