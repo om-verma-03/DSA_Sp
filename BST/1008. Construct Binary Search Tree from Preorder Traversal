@@ -1,0 +1,22 @@
+class Solution {
+public:
+    TreeNode* solve(int& ind,int mini,int maxi,vector<int>& preorder){
+        if(ind >= preorder.size()){
+            return NULL;
+        }
+
+        TreeNode* root = NULL;
+        if(preorder[ind] > mini && preorder[ind] < maxi){
+            root = new TreeNode(preorder[ind++]);
+            root->left = solve(ind,mini,root->val,preorder);
+            root->right = solve(ind,root->val,maxi,preorder);
+        }
+        return root;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int mini = INT_MIN;
+        int maxi = INT_MAX;
+        int i = 0;
+        return solve(i,mini,maxi,preorder);
+    }
+};
