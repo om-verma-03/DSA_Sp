@@ -1,0 +1,70 @@
+class Solution {
+  public:
+    long long solve(int n,int k,int target,vector<vector<long long>>& dp){
+        if(target < 0){
+            return 0;
+        }
+        if(n == 0 && target != 0){
+            return 0;
+        }
+        if(n == 0 && target == 0){
+            return 1;
+        }
+        if(n != 0 && target == 0){
+            return 0;
+        }
+        if(dp[n][target] != -1){
+            return dp[n][target];
+        }
+        
+        long long ans = 0;
+        for(int i=1;i<=k;i++){
+            ans += solve(n-1,k,target-i,dp);
+        }
+        return dp[n][target] = ans;
+    }
+    long long solve_tab(int n,int k,int target){
+        vector<vector<long long>> dp(n+1,vector<long long>(target+1,0));
+        
+        dp[0][0] = 1;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=target;j++){
+                long long ans = 0;
+                for(int l=1;l<=k;l++){
+                    if(j-l >= 0){
+                        ans += dp[i-1][j-l];
+                    }
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[n][target];
+    }
+    long long solve_tab_so(int n,int k,int target){
+        vector<long long> prev(target+1,0);
+        vector<long long> curr(target+1,0);
+        
+        prev[0] = 1;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=target;j++){
+                long long ans = 0;
+                for(int l=1;l<=k;l++){
+                    if(j-l >= 0){
+                        ans += prev[j-l];
+                    }
+                }
+                curr[j] = ans;
+            }
+            prev = curr;
+        }
+        return prev[target];
+    }
+    long long noOfWays(int M , int N , int X) {
+        // vector<vector<long long>> dp(N+1,vector<long long>(X+1,-1));
+        // return solve(N,M,X,dp);
+        // return solve_tab(N,M,X);
+        return solve_tab_so(N,M,X);
+    }
+};
