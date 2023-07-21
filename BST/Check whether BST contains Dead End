@@ -1,0 +1,33 @@
+void Inorder(Node* root,unordered_map<int,bool>& visited){
+    if(root == NULL){
+        return;
+    }
+    
+    visited[root->data] = true;
+    Inorder(root->left,visited);
+    Inorder(root->right,visited);
+}
+bool solve(Node* root,unordered_map<int,bool>& mp){
+    if(root == NULL){
+        return false;
+    }
+    if(root->left == NULL && root->right ==NULL){
+        int s1 = root->data-1 == 0 ? root->data : root->data-1;
+        if(mp.find(root->data +1) != mp.end() && mp.find(s1) != mp.end()){
+            //cout<<"Root->data: "<<root->data<<endl;
+            return true;
+        }
+    }
+    
+    bool left_t = solve(root->left,mp);
+    bool right_t = solve(root->right,mp);
+    
+    return (left_t || right_t);
+}
+bool isDeadEnd(Node *root){
+    unordered_map<int,bool> visited;
+    Inorder(root,visited);
+    
+    bool flag = solve(root,visited);
+    return flag;
+}
