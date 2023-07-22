@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isCompleteTree(TreeNode* root) {
+        queue<TreeNode*> que;
+        que.push(root);
+        bool flag = false;
+
+        while(!que.empty()){
+            int size = que.size();
+            while(size--){
+                TreeNode* frontNode = que.front();
+                que.pop();
+
+                if(frontNode == NULL){  //Agar Null mil jaye to flag true mark krr do Or uske baad koi bhi node nhi millna chahhiye
+                    flag = true;
+                }
+                else{
+                    if(flag == true){
+                        return false;
+                    }
+                    que.push(frontNode->left);
+                    que.push(frontNode->right);
+                }
+            }
+        }
+        return true;
+    }
+};
+
+//If Else issliye laga h q ki agar frontNode Null millta h to uska left & right dallna queue me possible to nhi h na
