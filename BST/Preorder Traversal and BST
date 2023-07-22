@@ -1,0 +1,26 @@
+class Solution {
+  public:
+    int i = 0;
+    void solve(int arr[],int n,int mini,int maxi){
+        if(i >= n){
+            return;
+        }
+        if(arr[i] < mini || arr[i] > maxi){
+            //cout<<mini<<" "<<arr[i]<<" "<<maxi<<endl;
+            return;
+        }
+        
+        int data = arr[i++];
+        solve(arr,n,mini,data);
+        solve(arr,n,data,maxi);
+    }
+    int canRepresentBST(int arr[], int N) {
+        int low = INT_MIN;
+        int high = INT_MAX;
+        solve(arr,N,low,high);
+        if(i == N){
+            return true;
+        }
+        return false;
+    }
+};
