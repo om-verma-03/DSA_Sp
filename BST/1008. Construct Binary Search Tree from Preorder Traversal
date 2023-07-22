@@ -4,13 +4,13 @@ public:
         if(ind >= preorder.size()){
             return NULL;
         }
-
-        TreeNode* root = NULL;
-        if(preorder[ind] > mini && preorder[ind] < maxi){
-            root = new TreeNode(preorder[ind++]);
-            root->left = solve(ind,mini,root->val,preorder);
-            root->right = solve(ind,root->val,maxi,preorder);
+        if(preorder[ind] < mini || preorder[ind] > maxi){
+            return NULL;
         }
+
+        TreeNode* root = new TreeNode(preorder[ind++]);
+        root->left = solve(ind,mini,root->val,preorder);
+        root->right = solve(ind,root->val,maxi,preorder);
         return root;
     }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
