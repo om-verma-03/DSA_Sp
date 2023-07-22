@@ -14,7 +14,7 @@ class Solution {
         solve(arr,n,mini,data);
         solve(arr,n,data,maxi);
     }
-    int canRepresentBST(int arr[], int N) {
+    int canRepresentBST(int arr[], int N) {               //Agar valid preorder nhi hoga to arr me purra Iterate nhi krr payega i and beech me hi rukk jayega
         int low = INT_MIN;
         int high = INT_MAX;
         solve(arr,N,low,high);
