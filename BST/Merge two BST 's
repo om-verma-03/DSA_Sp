@@ -1,0 +1,37 @@
+class Solution
+{
+    public:
+    //Function to return a list of integers denoting the node 
+    //values of both the BST in a sorted order.
+    vector<int> merge(Node *root1, Node *root2){
+        vector<int> ans;
+       stack<Node*> sa,sb;
+       Node* a = root1;
+       Node* b = root2;
+       
+       while(a || b|| !sa.empty() || !sb.empty()){
+           while(a){
+               sa.push(a);
+               a = a->left;
+           }
+           while(b){
+               sb.push(b);
+               b = b->left;
+           }
+           
+           if(sb.empty() || (!sa.empty() && sa.top()->data <= sb.top()->data)){
+               Node* a_top = sa.top();
+               sa.pop();
+               ans.push_back(a_top->data);
+               a = a_top->right;
+           }
+           else{
+               Node* b_top = sb.top();
+               sb.pop();
+               ans.push_back(b_top->data);
+               b = b_top->right;
+           }
+       }
+       return ans;
+    }
+};
