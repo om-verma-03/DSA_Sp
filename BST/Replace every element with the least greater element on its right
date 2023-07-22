@@ -1,0 +1,41 @@
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+    
+    Node(int val){
+        this->data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+
+class Solution{
+    public:
+    Node* solve(Node* root,int elem,int& succ){
+        if(root == NULL){
+            Node* temp = new Node(elem);
+            return temp;
+        }
+        
+        if(elem < root->data){      //Hame element ka Inorder Successor nikalna hai So ham jab bhi Element daalte waqt left ko jayenge mtlb wo root ka elem hamara poss candidate ho sakta h
+            succ = root->data;
+            root->left = solve(root->left,elem,succ);
+        }
+        else{
+            root->right = solve(root->right,elem,succ);
+        }
+        return root;
+    }
+    vector<int> findLeastGreater(vector<int>& arr, int n){
+        vector<int> ans(arr.size(),-1);
+        Node* root = NULL;
+        for(int i=n-1;i>=0;i--){
+            int succ = -1;
+            root = solve(root,arr[i],succ);
+            ans[i] = succ;
+        }
+        return ans;
+    }
+};
