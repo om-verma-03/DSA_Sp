@@ -1,0 +1,26 @@
+class Solution{
+public:
+    //Function that constructs BST from its preorder traversal.
+    Node* solve(int pre[],int& ind,int mini,int maxi,int size){
+        if(ind >= size){
+            return NULL;
+        }
+        if(pre[ind] > mini && pre[ind] < maxi){
+            return NULL;
+        }
+        
+        
+        Node* root = newNode(pre[ind++]);
+        root->left = solve(pre,ind,mini,root->data,size);
+        root->right = solve(pre,ind,root->data,maxi,size);
+        return root;
+    }
+    Node* post_order(int pre[], int size){
+        int mini = INT_MIN;
+        int maxi = INT_MAX;
+        
+        int ind = 0;
+        Node* root = solve(pre,ind,mini,maxi,size);
+        return root;
+    }
+};
