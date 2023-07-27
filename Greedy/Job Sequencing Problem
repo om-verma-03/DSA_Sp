@@ -1,0 +1,39 @@
+class Solution {
+    public:
+    //Function to find the maximum profit and the number of jobs done.
+    vector<int> JobScheduling(Job arr[], int n){
+        vector<pair<int,int>> v;
+        
+        for(int i=0;i<n;i++){
+            v.push_back({arr[i].profit,arr[i].dead});
+        }
+        
+        sort(v.begin(),v.end(),greater<pair<int,int>>());
+        
+        int profit = 0;
+        int count = 0;
+        
+        vector<int> jobs(n+2,-1);
+        
+        for(int i=0;i<n;i++){
+            if(jobs[v[i].second] == -1){
+                jobs[v[i].second] = 1;
+                profit += v[i].first;
+                count++;
+            }
+            else{
+                int ind = v[i].second-1;
+                while(ind >= 1){
+                    if(jobs[ind] == -1){
+                        jobs[ind] = 1;
+                        profit += v[i].first;
+                        count++;
+                        break;
+                    }
+                    ind--;
+                }
+            }
+        }
+        return {count,profit};
+    } 
+};
