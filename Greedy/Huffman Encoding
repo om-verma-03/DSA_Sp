@@ -1,0 +1,55 @@
+class Solution{
+	public:
+    	struct Node{
+    	    int data;
+    	    struct Node* left;
+    	    struct Node* right;
+    	    
+    	    Node(int data){
+    	        this->data = data;
+    	        left = NULL;
+    	        right = NULL;
+    	    }
+    	};
+    	struct cmp{
+    	    bool operator()(Node* l,Node* r){
+    	        return (l->data > r->data);
+    	    }
+    	};
+    	void preOrder(Node* root,string st,vector<string>& ans){
+    	    if(root == NULL){
+    	        return;
+    	    }
+    	    if(root->left == NULL && root->right == NULL){
+    	        ans.push_back(st);
+    	    }
+    	    
+    	    preOrder(root->left,st+'0',ans);
+    	    preOrder(root->right,st+'1',ans);
+    	}
+		vector<string> huffmanCodes(string S,vector<int> f,int N){
+		    priority_queue<Node*,vector<Node*>,cmp> pq;
+		    
+		    for(int i=0;i<N;i++){
+		        Node* temp = new Node(f[i]);
+		        pq.push(temp);
+		    }
+		    
+		    while(pq.size() != 1){
+		        Node* p1 = pq.top(); pq.pop();
+		        Node* p2 = pq.top(); pq.pop();
+		        
+		        Node* parent = new Node(p1->data + p2->data);
+		        parent->left = p1;
+		        parent->right = p2;
+		        pq.push(parent);
+		    }
+		    
+		    Node* root = pq.top();
+		    pq.pop();
+		    
+		    vector<string> ans;
+		    preOrder(root,"",ans);
+		    return ans;
+		}
+};
