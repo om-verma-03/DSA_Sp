@@ -1,0 +1,30 @@
+class Solution{
+public:
+	long long maxProduct(vector<int> arr, int n) {
+	    long long ans = 1;
+	    long long max_R = INT_MIN;
+	    long long max_L = INT_MIN;
+	    
+	    for(int i=0;i<n;i++){
+	        ans *= arr[i];
+	        
+	        max_R = max(max_R,ans);
+	        
+	        if(ans == 0){
+	            ans = 1;
+	        }
+	    }
+	    
+	    ans = 1;
+	    for(int i=n-1;i>=0;i--){
+	        ans *= arr[i];
+	        
+	        max_L = max(max_L,ans);
+	        
+	        if(ans == 0){
+	            ans = 1;
+	        }
+	    }
+	    return max(max_R,max_L);
+	}
+};
