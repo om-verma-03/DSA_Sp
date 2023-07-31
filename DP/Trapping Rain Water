@@ -1,0 +1,30 @@
+class Solution{
+    public:
+    long long trappingWater(int arr[], int n){
+        vector<long long> left(n,0);
+        vector<long long> right(n,0);
+        long long maxi = arr[0];
+        
+        for(int i=0;i<n;i++){
+            maxi = max(maxi,arr[i]*1ll);
+            
+            left[i] = maxi;
+        }
+        
+        maxi = arr[n-1];
+        for(int i=n-1;i>=0;i--){
+            maxi = max(maxi,arr[i]*1ll);
+            
+            right[i] = maxi;
+        }
+        
+        vector<long long> compute(n,0);
+        long long ans = 0;
+        for(int i=0;i<n;i++){
+            compute[i] = min(left[i],right[i]);
+            ans += compute[i]-arr[i];
+        }
+        
+        return ans;
+    }
+};
