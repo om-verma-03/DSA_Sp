@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int i,int j,vector<vector<int>>& dp){
+        if(i > j){
+            return 0; 
+        }
+        if(i == j){
+            return nums[i];
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        int take_i = nums[i] + min(solve(nums,i+2,j,dp),solve(nums,i+1,j-1,dp));
+        int take_j = nums[j] + min(solve(nums,i+1,j-1,dp),solve(nums,i,j-2,dp));
+
+        return dp[i][j] = max(take_i,take_j);
+    }
+    int solve_tab(vector<int>& nums){        //Not Running
+        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,0));
+
+        for(int i=nums.size()-1;i>=0;i--){
+            for(int j=1;j<=nums.size()-1;j++){
+                if(i == 1){
+                    dp[i][i] = nums[j];
+                    continue;
+                }
+                int take_i = nums[i] + min(dp[i+2][j],dp[i+1][j-1]);
+                int take_j = nums[j] + min(dp[i+1][j-1],dp[i][j-2]);
+
+                dp[i][j] = max(take_i,take_j);
+            }
+        }
+        return dp[0][nums.size()-1];
+    }
+    bool PredictTheWinner(vector<int>& nums) {
+        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,-1));
+        // int player1 = solve(nums,0,nums.size()-1,dp);
+        int player1 = solve_tab(nums);
+        int sum = accumulate(nums.begin(),nums.end(),0);
+
+        int player2 = sum-player1;
+
+        return player1>=player2;
+    }
+};
