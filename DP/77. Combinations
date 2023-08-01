@@ -1,5 +1,5 @@
 class Solution {
-public:
+public :
     void solve(int ind,int n,vector<vector<int>>& ans,vector<int>& temp,int k){
         //Base case
         if(k == 0){
