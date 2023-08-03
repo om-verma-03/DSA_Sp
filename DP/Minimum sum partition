@@ -1,0 +1,29 @@
+class Solution{
+  public:
+    void solve(int arr[],int ind,int n,int sum,int temp,int& ans,vector<vector<int>>& dp){
+        //base case
+        if(ind >= n){
+            int rem = sum-temp;
+            ans = min(ans,abs(temp-rem));
+            return ;    //See it later
+        }
+        if(dp[ind][temp] != -1){
+            return;
+        }
+        
+        solve(arr,ind+1,n,sum,temp+arr[ind],ans,dp);
+        solve(arr,ind+1,n,sum,temp,ans,dp);
+        
+        dp[ind][temp] = 1;
+    }
+	int minDifference(int arr[], int n)  { 
+	    int sum = 0;
+	    for(int i=0;i<n;i++){
+	        sum += arr[i];
+	    }
+	    int ans = 1e9;
+	    vector<vector<int>> dp(n+1,vector<int>(sum+1,-1));
+	    solve(arr,0,n,sum,0,ans,dp);
+	    return ans;
+	} 
+};
