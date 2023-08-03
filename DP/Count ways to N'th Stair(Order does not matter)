@@ -1,0 +1,24 @@
+class Solution{    //Code Library
+	public:
+	    int solve(vector<int> steps,int ind,int n,vector<vector<int>>& dp){
+	        if(ind == -1 && n > 0){
+	            return 0;
+	        }
+	        if(n == 0){
+	            return 1;
+	        }
+	        if(n < 0){
+	            return 0;
+	        }
+	        if(dp[ind][n] != -1){
+	            return dp[ind][n];
+	        }
+	        
+	        return dp[ind][n] = solve(steps,ind,n-steps[ind],dp) + solve(steps,ind-1,n,dp);
+	    }
+		int nthStair(int n){
+		    vector<int> steps = {1,2};
+		    vector<vector<int>> dp(3,vector<int>(n+1,-1));
+		    return solve(steps,steps.size()-1,n,dp);
+		}
+};
