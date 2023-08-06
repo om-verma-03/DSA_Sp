@@ -1,0 +1,23 @@
+class Solution{
+public:
+	// #define ll long long
+	int mod = 1e9+7;
+	int solve(int ind,int n,vector<int>& dp){
+	    if(ind >= n){
+	        return 1;
+	    }
+	    if(dp[ind] != -1){
+	        return dp[ind];
+	    }
+	    
+
+	    int include = solve(ind+2,n,dp);
+	    int exclude = solve(ind+1,n,dp);
+	    
+	    return dp[ind] = (include+exclude)%mod;
+	}
+	ll countStrings(int n){
+	    vector<int> dp(n+1,-1);
+	    return solve(0,n,dp);
+	}
+};
