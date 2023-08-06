@@ -1,0 +1,32 @@
+class Solution{
+  public:
+    int solve(string& a,string& b,int i,int j,vector<vector<int>>& dp){
+        if(i >= a.size() || j >= b.size()){
+            return 0;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        
+        int op1 = 0,op2 = 0,op3 = 0;
+        if(a[i] == b[j]){
+            op1 = 1+solve(a,b,i+1,j+1,dp);
+        }
+        else{
+            op2 = solve(a,b,i+1,j,dp);
+            op3 = solve(a,b,i,j+1,dp);
+        }
+        return dp[i][j] = max(op1,max(op2,op3));
+    }
+    int countMin(string str){
+        string a = str;
+        string b = str;
+        vector<vector<int>> dp(str.size()+1,vector<int>(str.size()+1,-1));
+        
+        reverse(b.begin(),b.end());
+        
+        int length = solve(a,b,0,0,dp);
+        
+        return str.size()-length;
+    }
+};
