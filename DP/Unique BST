@@ -1,0 +1,21 @@
+class Solution{
+    public:
+    int mod = 1e9+7;
+    int catalan(int n,vector<int>& dp){
+        if (n <= 1)
+            return 1;
+        if(dp[n] != -1){
+            return dp[n];
+        }
+ 
+        int res = 0;
+        for (int i = 0; i < n; i++)
+            res += ((catalan(i,dp))%mod*(catalan(n-i-1,dp))%mod)%mod;
+     
+        return dp[n] = res%mod;
+    }
+    int numTrees(int N){
+        vector<int> dp(N+1,-1);
+        return catalan(N,dp);
+    }
+};
