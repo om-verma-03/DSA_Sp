@@ -1,0 +1,36 @@
+class Solution{
+    public:
+    static bool cmp(pair<double,Item>& a,pair<double,Item>& b){
+        return a.first > b.first;
+    }
+    double fractionalKnapsack(int W, Item arr[], int n){
+        //Solving step wise
+        vector<pair<double,Item>> v;
+        
+        for(int i=0;i<n;i++){
+            //Calculating per Unit Value and Sorting according to it(Value/Weight)
+            double perUnitValue = (1.00*arr[i].value)/(1.00*arr[i].weight);
+            v.push_back({perUnitValue,arr[i]});
+        }
+        
+        sort(v.begin(),v.end(),cmp);
+        
+        //1.Now adding values
+        double tot_value = 0;
+        
+        for(int i=0;i<v.size();i++){
+            if(v[i].second.weight > W){
+                //We can consider only the fraction of it
+                tot_value += v[i].first*W;
+                W = 0;
+            }
+            else{
+                //We can take the whole value
+                tot_value += v[i].second.value;
+                W -= v[i].second.weight;
+            }
+        }
+        return tot_value;
+    }
+        
+};
