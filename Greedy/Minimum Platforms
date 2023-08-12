@@ -1,0 +1,27 @@
+class Solution{
+    public:
+    int findPlatform(int arr[], int dep[], int n){      //In this we just have to find the overlapping stations
+    	sort(arr,arr+n);                             //And keep track of the maximum overlapping station
+    	sort(dep,dep+n);
+    	
+    	int count = 0;
+    	int maxi = INT_MIN;
+    	
+    	
+    	int i = 0;
+    	int j = 0;
+    	
+    	while(i < n){
+    	    if(arr[i] <= dep[j]){
+    	        count++;
+    	        maxi = max(maxi,count);
+    	        i++;
+    	    }
+    	    else if(arr[i] > dep[j]){
+    	        count--;
+    	        j++;
+    	    }
+    	}
+    	return maxi;
+    }
+};
