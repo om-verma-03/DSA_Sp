@@ -1,0 +1,62 @@
+class Solution {                                           //Sliding Window
+public:
+    int minOperations(vector<int>& nums, int x) {
+        int sum = 0;
+
+        for(int i=0;i<nums.size();i++){
+            sum += nums[i];
+        }
+
+        if(sum-x == 0){
+            return nums.size();
+        }
+
+        int currSum = 0;
+        int len = 0;
+
+        int i=0,j=0;
+
+        while(j < nums.size()){
+            currSum += nums[j];
+
+            while(i <= j && currSum > sum-x){
+                currSum -= nums[i++];
+            }
+
+            if(currSum == sum-x){
+                len = max(len,j-i+1);
+            }
+            j++;
+        }
+        return len == 0 ? -1 : nums.size()-len;
+    }
+};
+
+class Solution {                                                  //Recursion(But Memory Limit Exceed)
+public:
+    int solve(int i,int j,vector<int>& nums,int target,vector<vector<int>>& dp){
+        if(target == 0){
+            return 0;
+        }
+        if(target < 0 || i > j || i >= nums.size() || j < 0){
+            return 100000000;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+
+        int t_left = 1+solve(i+1,j,nums,target-nums[i],dp);
+        int t_right = 1+solve(i,j-1,nums,target-nums[j],dp);
+
+        return dp[i][j] = min(t_left,t_right);
+    }
+    int minOperations(vector<int>& nums, int x){
+        vector<vector<int>> dp(nums.size()+1,vector<int>(nums.size()+1,-1));
+        int ans = solve(0,nums.size()-1,nums,x,dp);
+
+        if(ans >= 100000000){
+            return -1;
+        }
+        return ans;        
+    }
+};
