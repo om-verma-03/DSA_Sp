@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int mod = 1e9+7;
+    int solve(string& S,string& T,int i,int j,vector<vector<int>>& dp){
+        if(j < 0){
+            return 1;
+        }
+        if(i < 0){
+            return 0;
+        }
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        
+        if(S[i] == T[j]){
+            return dp[i][j] = (solve(S,T,i-1,j-1,dp)%mod+solve(S,T,i-1,j,dp)%mod)%mod;
+        }
+        else{
+            return dp[i][j] = solve(S,T,i-1,j,dp)%mod;
+        }
+    }
+    int numDistinct(string s, string t) {
+        vector<vector<int>> dp(s.size()+1,vector<int>(t.size(),-1));
+        return solve(s,t,s.size()-1,t.size()-1,dp);
+    }
+};
+//Explanation
+      i      j
+babgbag    bag
+
+if S[i] == T[j] matches then there can be two cases 
+    1. i-- & j-- krr ke aage check krr lo   (i--,j--);
+    2. sirf i-- krr ke dekho ko agar 'g' aage bhi mill jaye (i--,j);
