@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool solve(int n,int ind){
+        if(n == 0){
+            return true;
+        }
+        if(n < 0){
+            return false;
+        }
+        if(pow(3,ind) > n){
+            return false;
+        }
+
+        bool take = solve(n-pow(3,ind),ind+1);
+        bool not_take = solve(n,ind+1);
+
+        return take || not_take;
+    }
+    bool checkPowersOfThree(int n) {
+        return solve(n,0);
+    }
+};
