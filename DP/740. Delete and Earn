@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        int include = 0;
+        int exclude = 0;
+
+        int maxi = 0;
+
+        for(int i=0;i<nums.size();i++){
+            maxi = max(maxi,nums[i]);
+        }
+
+        vector<int> count(maxi+1,0);
+
+        for(int i=0;i<nums.size();i++){
+            count[nums[i]]++;
+        }
+
+        for(int i=0;i<count.size();i++){
+            int new_inc = (count[i]*i)+exclude;
+            int new_excl = max(include,exclude);
+
+            include = new_inc;
+            exclude = new_excl;
+        }
+
+        return max(include,exclude);
+    }
+};
