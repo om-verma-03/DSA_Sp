@@ -1,0 +1,36 @@
+class Solution{
+  public:
+    long long int solve(string s,int k){
+        int n = s.size();
+        int i = 0;
+        int j = 0;
+        
+        long long int ans = 0;
+        
+        vector<int> hash_count(26);
+        int distinct_count = 0;
+        
+        while(j < s.size()){
+            hash_count[s[j]-97]++;
+            
+            if(hash_count[s[j]-97] == 1){
+                distinct_count++;
+            }
+            
+            while(distinct_count > k){
+                hash_count[s[i]-97]--;
+                if(hash_count[s[i]-97] == 0){
+                    distinct_count--;
+                }
+                i++;
+            }
+            ans += j-i+1;
+            j++;
+        }
+        return ans;
+    }
+    long long int substrCount (string s, int k) {
+    	long long int ans = solve(s,k)-solve(s,k-1);
+    	return ans;
+    }
+};
