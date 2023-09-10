@@ -1,0 +1,29 @@
+//BOYER MOORE ALGORITHM
+int majorityElement(int a[], int size){
+        int elem = 0;
+        int count = 0;
+        
+        for(int i=0;i<size;i++){
+            if(count == 0){
+                elem = a[i];
+            }
+            if(elem == a[i]){
+                count++;
+            }
+            else{
+                count--;
+            }
+        }
+        
+        count = 0;
+        for(int i=0;i<size;i++){
+            if(elem == a[i]){
+                count++;
+            }
+        }
+        
+        if(count > size/2){
+            return elem;
+        }
+        return -1;
+    }
