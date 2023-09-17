@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        vector<vector<int>> dp(p.length()+1,vector<int>(s.length()+1));
+
+        for(int i=0;i<dp.size();i++){
+            for(int j=0;j<dp[0].size();j++){
+                if(i == 0 && j == 0){      //Pehela cell h to...
+                    dp[i][j] = true;
+                }
+                else if(i == 0){          //Pehela Row h to...
+                    dp[i][j] = false;
+                }
+                else if(j == 0){      //Pehela Col h to...
+                    char temp = p[i-1];
+                    if(temp == '*'){   
+                        //Agar '*' mille to do upper jaa krr dekho
+                        dp[i][j] = dp[i-2][j]; 
+                    }
+                    else{              
+                        //Else me false mark krro
+                        dp[i][j] = false;
+                    }
+                }
+                else{                   //Else me agar pehela cell,row,col nhi h then else me treat krro...         
+                    char pc = p[i-1];
+                    char sc = s[j-1];
+
+                    if(pc == '*'){            //'*; mille to doo upper chek krro
+                        dp[i][j] = dp[i-2][j];
+
+                        char pslc = p[i-2];
+                        if(pslc == '.' || pslc == sc){   //Ya to ek peeche chek krro
+                            dp[i][j] = dp[i][j] || dp[i][j-1];
+                        }
+                    }
+                    else if(pc == '.'){     //'.' aaye to seedha prev diagonal check krro...
+                        dp[i][j] = dp[i-1][j-1];
+                    }
+                    else if(pc == sc){    //If doo char match krre the also prev diagonal check krro....
+                        dp[i][j] = dp[i-1][j-1];
+                    }
+                    else{                //Else me false mark krro mtlb '.' bhi nhi h nahi '*' h or nahi 'char match' krr rha h
+                        dp[i][j] = false;
+                    }
+                }
+            }
+        }
+        return dp[p.length()][s.length()];
+    }
+};
