@@ -1,0 +1,49 @@
+class Solution{
+    int minEle;
+    stack<int> st;
+    public:
+       /*returns min element from stack*/
+       int getMin(){
+           if(st.empty()){
+               return -1;
+           }
+           return minEle;
+       }
+       
+       /*returns poped element from stack*/
+       int pop(){
+           if(st.size() == 0){
+               return -1;
+           }
+           else{
+               int temp = st.top();
+               if(st.top() >= minEle){
+                   st.pop();
+                   return temp;
+               }
+               else{
+                   int temp = minEle;
+                   minEle = 2*minEle-st.top();
+                   st.pop();
+                   return temp;
+               }
+           }
+       }
+       
+       /*push element x into the stack*/
+       void push(int x){
+           if(st.size() == 0){
+               st.push(x);
+               minEle = x;
+           }
+           else{
+               if(x >= minEle){
+                   st.push(x);
+               }
+               else{
+                    st.push(2*x - minEle);
+                    minEle = x;
+               }
+           }
+       }
+};
