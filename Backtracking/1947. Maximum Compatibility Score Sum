@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int Compatibility(vector<vector<int>>& students,vector<vector<int>>& mentors,int stInd,int meInd){
+        int score = 0;
+        for(int i=0;i<students[stInd].size();i++){
+            if(students[stInd][i] == mentors[meInd][i]){
+                score++;
+            }
+        }
+        return score;
+    }
+    void solve(vector<vector<int>>& students,vector<vector<int>>& mentors,vector<bool> mentorsTaken,int ind,int score,int& res){
+        if(ind >= students.size()){
+            res = max(res,score);
+            return;
+        }
+
+        int ComScore = 0;
+        for(int i=0;i<students.size();i++){
+            if(mentorsTaken[i] == false){
+                mentorsTaken[i] = true;        //Backtracking
+                ComScore = Compatibility(students,mentors,ind,i);
+                solve(students,mentors,mentorsTaken,ind+1,score+ComScore,res);
+                mentorsTaken[i] = false;       //Backtracking
+            }
+        }
+    }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        vector<bool> mentorsTaken(mentors.size(),false);
+        int res = 0;
+        solve(students,mentors,mentorsTaken,0,0,res);
+        return res;
+    }
+};
