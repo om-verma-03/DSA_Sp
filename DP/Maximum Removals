@@ -1,0 +1,64 @@
+Q-There are N houses on the Geekstreet where the population of ith house is given by Ai. Let there are m distinct subsequences 
+of houses whose sum of population adds upto X. Two subsequences are different if there is atleast one house which is not common 
+in both subsequences.Geek wants to remove maximum number of houses such that the number of distinct subsequences of houses whose 
+sum of population adds upto X remains same i.e. m.Find maximum number of houses Geek can remove.
+
+Example 1: 
+
+Input:
+N = 6, X = 4
+A[] = {1, 3, 2, 3, 4, 5}
+Output:
+2
+Explanation: 
+Geek can remove 3rd and 6th house.
+Example 2: 
+
+Input: 
+N = 4, X = 4 
+A[] = {3, 3, 3, 3} 
+Output: 
+4
+Explanation: 
+Geek can remove all houses.
+
+
+                                                                  CODE
+class Solution {
+    public:
+    int solve(int ind,vector<int>& arr,int sum,vector<bool>& vis,vector<vector<int>>& dp){
+        if(sum == 0){
+            return 1;
+        }
+        if(ind >= arr.size()){
+            return 0;
+        }
+        if(dp[ind][sum] != -1){
+            return dp[ind][sum];
+        }
+        
+        int take = 0,not_take = 0;
+        if(arr[ind] <= sum){
+            take = solve(ind+1,arr,sum-arr[ind],vis,dp);
+            if(take == true){
+                vis[ind] = true;
+            }
+        }
+        not_take = solve(ind+1,arr,sum,vis,dp);
+        
+        return dp[ind][sum] = take || not_take;
+    }
+    int maxRemoval(int N, vector<int> A, int X){
+        vector<vector<int>> dp(A.size()+1,vector<int>(X+1,-1));
+        vector<bool> vis(N,false);
+        solve(0,A,X,vis,dp);
+        
+        int count = 0;
+        for(int i=0;i<vis.size();i++){
+            if(vis[i] == false){
+                count++;
+            }
+        }
+        return count;
+    }
+};
