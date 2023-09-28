@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void solve(vector<int>& nums,int ind,vector<int> temp,vector<vector<int>>& ans){
+        if(ind >= nums.size()){
+            ans.push_back(temp);
+            return;
+        }
+
+        temp.push_back(nums[ind]);
+        solve(nums,ind+1,temp,ans);
+        temp.pop_back();
+
+        while(ind+1 < nums.size() && nums[ind] == nums[ind+1]){ //Agar mai curr element ko skip krr rha hu to usske jittne bhi duplicate elements honge unhe bhi skip krr dunga
+            ind++;
+        }
+        solve(nums,ind+1,temp,ans);
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+
+        vector<vector<int>> ans;
+        vector<int> temp;
+
+        solve(nums,0,temp,ans);
+        return ans;
+    }
+};
