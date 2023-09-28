@@ -1,4 +1,4 @@
-class Solution{
+class Solution{/
 public:
     void solve(vector<int>& arr,int ind,int temp,vector<int>& ans){
         if(ind >= arr.size()){
