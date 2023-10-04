@@ -1,0 +1,22 @@
+class Solution{
+public:
+    long long int optimalKeys(int N){
+        vector<int> dp(76+1,0);
+        
+        for(int i=1;i<=6;i++){
+            dp[i] = i;
+        }
+        
+        for(int i=7;i<=N;i++){
+            
+            for(int j=i-3;j>=1;j--){
+                long long int curr = dp[j]*(i-j-1);
+                
+                if(curr > dp[i]){
+                    dp[i] = curr;
+                }
+            }
+        }
+        return dp[N];
+    }
+};
