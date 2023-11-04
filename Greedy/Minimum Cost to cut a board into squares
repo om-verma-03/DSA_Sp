@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int minimumCostOfBreaking(vector<int> X, vector<int> Y, int M, int N){
+        M--;
+        N--;
+        
+        sort(X.begin(),X.end(),greater<int>());
+        sort(Y.begin(),Y.end(),greater<int>());
+        
+        int i=0,j=0;
+        int horizontal = 1;
+        int vertical = 1;
+        
+        int cost = 0;
+        
+        while(i < M && j < N){
+            if(X[i] > Y[j]){
+                cost += X[i]*horizontal;
+                vertical++;
+                i++;
+            }    
+            else{
+                cost += Y[j]*vertical;
+                horizontal++;
+                j++;
+            }
+        }
+        
+        while(i < M){
+            cost += X[i]*horizontal;
+            vertical++;
+            i++;
+        }
+        while(j < N){
+            cost += Y[j]*vertical;
+            horizontal++;
+            j++;
+        }
+        return cost;
+    }
+};
