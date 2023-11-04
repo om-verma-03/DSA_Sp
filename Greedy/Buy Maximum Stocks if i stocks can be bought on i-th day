@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int buyMaximumProducts(int n, int k, int price[]){
+        vector<pair<int,int>> arr;
+        
+        for(int i=0;i<n;i++){
+            arr.push_back({price[i],i+1});
+        }
+        
+        sort(arr.begin(),arr.end());
+        
+        int count = 0;
+        
+        for(int i=0;i<arr.size();i++){
+            int max_take = arr[i].second;
+            int stock_price = arr[i].first;
+            
+            if(max_take*stock_price <= k){
+                count += max_take;
+                k -= (max_take*stock_price);
+            }
+            else{
+                int temp = k;
+                int rem = temp%stock_price;
+                temp -= rem;
+                count += (temp/stock_price);
+                k -= (temp);
+            }
+        }
+        return count;
+    }
+};
