@@ -1,0 +1,70 @@
+class Solution {
+public:
+    void parent_mapping(TreeNode* curr,TreeNode* prev,unordered_map<TreeNode*,TreeNode*>& parent){
+        if(curr == NULL){
+            return;
+        }
+
+        parent[curr] = prev;
+        
+        parent_mapping(curr->left,curr,parent);
+        parent_mapping(curr->right,curr,parent);
+    }
+    TreeNode* find(TreeNode* root,int target){
+        queue<TreeNode*> que;
+        que.push(root);
+
+        while(!que.empty()){
+            TreeNode* front = que.front();
+            que.pop();
+
+            if(front->val == target){
+                return front;
+            }
+
+            if(front->left){
+                que.push(front->left);
+            }
+            if(front->right){
+                que.push(front->right);
+            }
+        }
+        return NULL;
+    }
+    int amountOfTime(TreeNode* root, int start) {
+        unordered_map<TreeNode*,TreeNode*> parent;
+
+        parent_mapping(root,NULL,parent);
+
+        TreeNode* start_node = find(root,start);
+
+        int level = 0;
+        queue<TreeNode*> que;
+        unordered_map<TreeNode*,bool> visited;
+        que.push(start_node);
+        visited[start_node] = true;
+
+        while(!que.empty()){
+            int size = que.size();
+            while(size--){
+                TreeNode* front = que.front();
+                que.pop();
+
+                if(front->left && !visited[front->left]){
+                    visited[front->left] = true;
+                    que.push(front->left);
+                }
+                if(front->right && !visited[front->right]){
+                    visited[front->right] = true;
+                    que.push(front->right);
+                }
+                if(parent[front] != NULL && !visited[parent[front]]){
+                    visited[parent[front]] = true;
+                    que.push(parent[front]);
+                }
+            }
+            level++;
+        }
+        return level-1;
+    }
+};
