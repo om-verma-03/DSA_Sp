@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int goal){
+        int i = 0;
+        int j = 0;
+        int curr_sum = 0;
+        int ans = 0;
+        while(j < nums.size()){
+            curr_sum += nums[j];
+
+            while(curr_sum > goal && i <= j){
+                curr_sum -= nums[i];
+                i++;
+            }
+            
+            ans += j-i+1;
+            j++;
+        }
+        return ans;
+    }
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        //Less than equal to goal - Less than equal to goal-1
+        return solve(nums,goal)-solve(nums,goal-1);
+    }
+};
+
+
+
+
+
+
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        unordered_map<int,int> mp;
+        int sum = 0;
+        int ans = 0;
+        mp[0] = 1;
+
+        for(int i=0;i<nums.size();i++){
+            sum += nums[i];
+
+            if(mp.find(sum-goal) != mp.end()){
+                ans += mp[sum-goal];
+            }
+            mp[sum]++;
+        }
+        return ans;
+    }
+};
