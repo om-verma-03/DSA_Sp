@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int solve(vector<int>& nums,int k){
+        unordered_map<int,int> mp;
+
+        int i=0;
+        int j=0;
+
+        int ans = 0;
+        while(j < nums.size()){
+            mp[nums[j]]++;
+
+            while(mp.size() > k){
+                mp[nums[i]]--;
+                if(mp[nums[i]] == 0){
+                    mp.erase(nums[i]);
+                }
+                i++;
+            }
+            ans += j-i+1;      //This stores that how many subarray can be made ending at j
+            j++;
+        }
+        return ans;
+    }
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        return solve(nums,k)-solve(nums,k-1);
+
+        //For k=3 mere pas wo saare subarray aa jaynge jissme k=3,k=2,k=1 different elements honge
+            //    (Because agar koi array hoga jiska subarray nikalange to uska subarray me se always ya to equal to k different aayega ya to less than k different aayega,kabhi bhi greater than k differ. nhi aa sakta)
+        //For k=2 mere pas wo saare subarray aa jaynge jissme k=2,k=1 different elements honge
+        //Now we can subtract K-(K-1) => [(k=3,k=2,k=1)-(k=2,k=1)] => (k=3)
+    }
